@@ -267,17 +267,4 @@ abstract class File extends Base
         );
     }
 
-    /**
-     * 判断文件后缀名
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    private function isFilenameEndingWithExtension($name)
-    {
-        return pathinfo($file, PATHINFO_EXTENSION);
-    }
-
-
 }
