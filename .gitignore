@@ -5,3 +5,4 @@ Desktop.ini
 .project
 /composer.lock
 /vendor/
+/test
