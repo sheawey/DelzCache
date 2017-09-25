@@ -11,7 +11,7 @@ use Delz\Cache\Contract\ICache;
  *
  * @package Delz\Cache\Provider
  */
-abstract class File extends Base
+class File extends Base
 {
     /**
      * 缓存保存目录
@@ -19,6 +19,13 @@ abstract class File extends Base
      * @var string
      */
     protected $directory;
+
+    /**
+     * 目录层次
+     *
+     * @var int
+     */
+    protected $directoryLevel;
 
     /**
      * 缓存后缀名
@@ -37,9 +44,10 @@ abstract class File extends Base
      *
      * @param string $directory
      * @param string $extension
+     * @param int $directoryLevel 目录层次
      * @param int $umask
      */
-    public function __construct($directory, $extension = '.cache', $umask = 0002)
+    public function __construct($directory, $extension = '.cache', $directoryLevel = 1, $umask = 0002)
     {
         if (!is_int($umask)) {
             throw new \InvalidArgumentException(sprintf(
@@ -64,6 +72,7 @@ abstract class File extends Base
         }
 
         $this->directory = realpath($directory);
+        $this->directoryLevel = (int)$directoryLevel;
         $this->extension = (string)$extension;
     }
 
@@ -198,9 +207,13 @@ abstract class File extends Base
     {
         $hash = md5($id);
 
+        $path = '';
+        for ($i = 0; $i < $this->directoryLevel; $i++) {
+            $path .= DIRECTORY_SEPARATOR . substr($hash, $i * 2, 2);
+        }
+
         return $this->directory
-        . DIRECTORY_SEPARATOR
-        . substr($hash, 0, 2)
+        . $path
         . DIRECTORY_SEPARATOR
         . $hash
         . $this->extension;
@@ -234,11 +247,11 @@ abstract class File extends Base
     {
         $filePath = pathinfo($filename, PATHINFO_DIRNAME);
 
-        if ( ! $this->createPath($filePath)) {
+        if (!$this->createPath($filePath)) {
             return false;
         }
 
-        if ( ! is_writable($filePath)) {
+        if (!is_writable($filePath)) {
             return false;
         }
 
