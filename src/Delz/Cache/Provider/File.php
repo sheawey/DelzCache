@@ -43,11 +43,11 @@ class File extends Base
      * 构造方法
      *
      * @param string $directory
-     * @param string $extension
      * @param int $directoryLevel 目录层次
+     * @param string $extension
      * @param int $umask
      */
-    public function __construct($directory, $extension = '.cache', $directoryLevel = 1, $umask = 0002)
+    public function __construct($directory, $directoryLevel = 0, $extension = '.cache', $umask = 0002)
     {
         if (!is_int($umask)) {
             throw new \InvalidArgumentException(sprintf(
