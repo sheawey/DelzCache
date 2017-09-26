@@ -12,9 +12,9 @@ class PhpFile extends File
     /**
      * {@inheritdoc}
      */
-    public function __construct($directory, $extension = '.php', $directoryLevel = 0, $umask = 0002)
+    public function __construct($directory, $directoryLevel = 0, $extension = '.php', $umask = 0002)
     {
-        parent::__construct($directory, $extension, $directoryLevel, $umask);
+        parent::__construct($directory, $directoryLevel, $extension, $umask);
     }
 
     /**
@@ -24,11 +24,11 @@ class PhpFile extends File
     {
         $value = $this->includeFileWithId($id);
 
-        if(!$value) {
+        if (!$value) {
             return false;
         }
 
-        if($value['lifetime'] !==0 && $value['lifetime'] < time()) {
+        if ($value['lifetime'] !== 0 && $value['lifetime'] < time()) {
             return false;
         }
 
@@ -42,7 +42,7 @@ class PhpFile extends File
     {
         $value = $this->includeFileWithId($id);
 
-        if(!$value) {
+        if (!$value) {
             return false;
         }
 
@@ -58,7 +58,7 @@ class PhpFile extends File
             $lifeTime = time() + $lifeTime;
         }
 
-        if(is_object($data) && !method_exists($data, "__set_state")) {
+        if (is_object($data) && !method_exists($data, "__set_state")) {
             throw new \InvalidArgumentException(
                 "Invalid argument given, PhpFile only allows objects that implement __set_state() " .
                 "and fully support var_export()."
@@ -89,7 +89,7 @@ class PhpFile extends File
         //不用file_exists\is_file\is_readable,因为直接错误信息比判断一下速度快
         $value = @include $fileName;
 
-        if(!isset($value['lifetime'])) {
+        if (!isset($value['lifetime'])) {
             return false;
         }
 
