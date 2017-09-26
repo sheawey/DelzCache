@@ -57,7 +57,7 @@ class File extends Base
         }
         $this->umask = $umask;
 
-        if ($this->createPath($directory)) {
+        if (!$this->createPath($directory)) {
             throw new \InvalidArgumentException(sprintf(
                 'The directory "%s" does not exist and could not be created.',
                 $directory
