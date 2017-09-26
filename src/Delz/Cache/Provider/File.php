@@ -7,7 +7,7 @@ use Delz\Cache\Contract\ICache;
 /**
  * 文件类缓存
  *
- * 不同文件可继承此抽象类
+ * 不同文件可继承此类
  *
  * @package Delz\Cache\Provider
  */
