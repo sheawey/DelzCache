@@ -40,7 +40,7 @@ class Redis extends Base
      */
     public function setRedis(PHPRedis $redis)
     {
-        $redis->set(PHPRedis::OPT_SERIALIZER, $this->getSerializer());
+        $redis->set(PHPRedis::OPT_SERIALIZER, PHPRedis::SERIALIZER_NONE);
         $this->redis = $redis;
     }
 
@@ -137,20 +137,6 @@ class Redis extends Base
         }
         //如果没有lifeTime,那么就用mset
         return (bool) $this->redis->mset($keysAndValues);
-    }
-
-    /**
-     * 获取redis序列化方式
-     *
-     * @return string
-     */
-    protected function getSerializer()
-    {
-        if (extension_loaded('igbinary')) {
-            return PHPRedis::SERIALIZER_IGBINARY;
-        }
-
-        return PHPRedis::SERIALIZER_PHP;
     }
 
 }
